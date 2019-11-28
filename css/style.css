@@ -1,0 +1,46 @@
+body{
+  font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+  text-align: center;
+}
+
+h1{
+
+  font-size: 30px;
+  padding-top: 30px;
+  text-align: center;
+}
+
+div{
+  background: #EEE;
+  width: calc(100% - 100px);
+}
+
+#grammar-box{
+  margin: 50px;
+  text-align: center;
+  height: 30vh;
+  overflow: auto;
+}
+
+#output-box{
+    margin: 50px 50px 0px 50px;
+      text-align: center;
+    height: 30vh;
+    overflow: auto;
+}
+
+#panel{
+      text-align: center;
+      display:block;
+      background: #fff;
+}
+
+#panel div{
+      text-align: center;
+  display:inline-block;
+    background: #fff;
+    margin: 5px;
+}
+
+
+button {background-color: #e7e7e7; color: black;} /* Gray */
