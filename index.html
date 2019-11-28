@@ -1,130 +1,118 @@
 <!DOCTYPE html>
 <html>
-<meta charset="utf-8"/>
+<meta charset="utf-8" />
 <link rel="stylesheet" href="css/reset.css">
 <link rel="stylesheet" href="css/style.css">
+<script src="js/jquery-3.4.1.min.js"></script>
+<script src="dist/jquery.knob.min.js"></script>
 
-<link rel="stylesheet" href="lib/presets/p1.css">
-<script type="text/javascript" src="lib/knob.js"></script>
-<script type="text/javascript" src="lib/presets/p1.js"></script>
 
 <head>
   <title>Grammar Workbench</title>
 </head>
- <script src="js/jquery-3.4.1.min.js"></script>
-  <script type="text/javascript">
 
-    $( document ).ready(function() {
+<script type="text/javascript">
+  $(document).ready(function() {
 
-    });
+      $('#exe-btn').prop('disabled', true);
+     $('#field').keyup(function() {
+        if($(this).val() != '') {
+           $('#exe-btn').prop('disabled', false);
+        }else{
+                $('#exe-btn').prop('disabled', true);
+        }
+     });
+    if (document.getElementById("field").value == '') {
+      console.log("NOP")
 
-  function loadFileAsText(){
+    } else {
+      console.log("YA")
+
+    }
+  });
+
+  function loadFileAsText() {
     var fileToLoad = document.getElementById("fileToLoad").files[0];
 
     var fileReader = new FileReader();
-    fileReader.onload = function(fileLoadedEvent){
+    fileReader.onload = function(fileLoadedEvent) {
       var textFromFileLoaded = fileLoadedEvent.target.result;
       $('#grammar-box').html(textFromFileLoaded);
     };
 
-  fileReader.readAsText(fileToLoad, "UTF-8");
+    fileReader.readAsText(fileToLoad, "UTF-8");
   }
-  </script>
-<body>
-<h1 id="title">
-Grammar Workbench
-</h1>
-<div id="grammar-box">
-
-</div>
-<div id="panel">
-  <input type="file" id="fileToLoad">
-  <button type="button" onclick="loadFileAsText()">Load</button>
-  <button type="button" onclick="alert('Hello world!')">Execute</button>
-  <input class="preset1" type="range" min="0" max="1" step="0.1" data-width="100" data-height="100" data-angleOffset="220"
-         data-angleRange="280">
-       </div>
-</div>
-
-<div id="output-box">
-
-</div>
-
-
-<script type="text/javascript">
-
-/**
-* Just a lazy way to convert all inputs into knobs.
-* Normally you would write `new Knob(document.getElementById('someIdHere'), new Ui.P1());` to create a knob.
-*/
-
-for (var i = 1; i < 6; i++) {
-Array.prototype.slice.call(document.getElementsByClassName('preset' + i)).forEach(function(el) {
-    new Knob(el, new Ui['P' + i]());
-
-    el.addEventListener('change', function  () {
-      console.log(parseFloat(el.value))
-    })
-})
-}
-
-
 </script>
-<svg>
-<filter id="dropshadow" height="150%" width="150%">
-<feGaussianBlur in="SourceAlpha" stdDeviation="2"/>
-<feOffset dx="0" dy="3" result="offsetblur"/>
-<feMerge>
-    <feMergeNode/>
-    <feMergeNode in="SourceGraphic"/>
-</feMerge>
-</filter>
-<filter id='inner-shadow'>
 
-<!-- Shadow Offset -->
-<feOffset
-        dx='0'
-        dy='5'
-        />
+<script>
+  $(function() {
+    $(".tempKnob").knob({
+      'min': 0,
+      'max': 1,
+      'step': 0.1,
+      'height': 100,
+      'release': function(v) {
+        console.log(v)
+      }
+    });
+    $(".speedKnob").knob({
+      'min': 0,
+      'max': 1,
+      'step': 0.1,
+      'height': 100,
+      'release': function(v) {
+        console.log(v)
+      }
+    });
+    $(".nKnob").knob({
+      'min': 1,
+      'max': 5,
+      'step': 1,
+      'height': 100,
+      'release': function(v) {
+        console.log(v)
+      }
+    });
+  });
+</script>
 
-<!-- Shadow Blur -->
-<feGaussianBlur
-        stdDeviation='5'
-        result='offset-blur'
-        />
+<body>
+  <h1 id="title">
+    Grammar Workbench
+  </h1>
+  <div id="grammar-box">
+    <textarea id="field">
+  </textarea>
+  </div>
+  <div id="panel">
+    <div class="btn">
+      <input type="file" id="fileToLoad">
+      <button type="button" onclick="loadFileAsText()">Load</button>
+      <button type="button" id="exe-btn" onclick="alert('Hello world!')">Execute</button>
+    </div>
+    <div class="knobs">
+      <div>
+        <h3>Temperature</h3>
+        <input class="tempKnob" data-width="100" data-displayInput=true value="0">
+      </div>
+      <div>
+        <h3>Speed</h3>
+        <input class="speedKnob" data-width="100" data-displayInput=true value="0.5">
+      </div>
+      <div>
+        <h3>N</h3>
+        <input class="nKnob" data-width="100" data-displayInput=true value="3">
+      </div>
+    </div>
+  </div>
+  </div>
 
-<!-- Invert the drop shadow
-     to create an inner shadow -->
-<feComposite
-        operator='out'
-        in='SourceGraphic'
-        in2='offset-blur'
-        result='inverse'
-        />
+  <div id="output-box">
 
-<!-- Color & Opacity -->
-<feFlood
-        flood-color='black'
-        flood-opacity='0.75'
-        result='color'
-        />
+  </div>
 
-<!-- Clip color inside shadow -->
-<feComposite
-        operator='in'
-        in='color'
-        in2='inverse'
-        result='shadow'
-        />
 
-<!-- Put shadow over original object -->
-<feComposite
-        operator='over'
-        in='shadow'
-        in2='SourceGraphic'
-        />
-</filter>
-</svg>
 
 </body>
+
 </html>
